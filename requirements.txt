@@ -1,0 +1,31 @@
+# Core AI Framework
+langchain==0.1.0
+langchain-anthropic==0.1.1
+langchain-community==0.0.20
+
+# FastAPI Backend
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# Database
+psycopg2-binary==2.9.9
+sqlalchemy==2.0.25
+alembic==1.13.1
+
+# WhatsApp Integration
+twilio==8.11.1
+
+# Environment & Configuration
+python-dotenv==1.0.0
+
+# Utilities
+requests==2.31.0
+python-multipart==0.0.6
+aiofiles==23.2.1
+deep-translator==1.11.4
+
+# Testing
+pytest==7.4.4
+pytest-asyncio==0.23.3
