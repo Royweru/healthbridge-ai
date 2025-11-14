@@ -4,7 +4,7 @@ import logging
 from fastapi import FastAPI, Depends
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
-
+import uvicorn
 from backend.models.models import create_db_and_tables
 from backend.routes import agents, appointments, patients, whatsapp
 
@@ -69,3 +69,9 @@ async def read_root():
 
 # To run the application:
 # uvicorn backend.main:app --reload
+
+if __name__ =="__main__" :
+    print("Starting application...")
+    print("Listening on http://localhost:8000")
+    uvicorn.run("backend.main:app", host="0.0.0.0", port=8000, reload=True)
+    

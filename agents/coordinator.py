@@ -99,7 +99,14 @@ class CoordinatorAgent:
             logger.error(f"Error classifying intent: {e}")
             return "unclear"
 
-    def log_message(self, patient_id: int, session_id: str, sender: str, content: str, translated_content: str = None, lang: str = None):
+    def log_message(self, 
+                    patient_id: int, 
+                    session_id: str, 
+                    sender: str,
+                    content: str,
+                    translated_content: str = None,
+                    lang: str = None
+                    ):
         """Logs the message to the database."""
         msg = models.Message(
             patient_id=patient_id,
