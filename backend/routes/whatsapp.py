@@ -22,7 +22,6 @@ router = APIRouter(
              description="Endpoint to receive incoming messages from Twilio.")
 async def whatsapp_webhook(
     request: Request,
-    db: Session = Depends(get_db),
     From: str = Form(...), # Patient's number e.g., 'whatsapp:+254712345678'
     Body: str = Form(...)  # The message content
 ):
@@ -41,8 +40,8 @@ async def whatsapp_webhook(
     logger.info(f"Webhook received from {patient_phone}: '{incoming_msg}'")
 
     try:
-        # Initialize the coordinator agent with the current DB session
-        coordinator = CoordinatorAgent(db_session=db)
+        # Initialize the coordinator agent. It will manage its own DB session.
+        coordinator = CoordinatorAgent()
         
         # Run the processing in the background.
         # FastAPI will handle the async task.

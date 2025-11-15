@@ -32,13 +32,9 @@ def translate_text(text: str, dest_lang: str = 'en', source_lang: str = 'auto') 
         translated_text = translator.translate(text)
         
         if translated_text:
-            # deep-translator doesn't directly return the detected source language when source is 'auto'
-            # We will call the detect function for that.
-            detected_lang = detect_language(text).get('language', source_lang)
-
             result = {
                 "translated_text": translated_text,
-                "source_language": detected_lang,
+                "source_language": source_lang if source_lang != 'auto' else 'auto detected',
                 "dest_language": dest_lang
             }
             logger.info(f"Translated '{text}' ({result['source_language']}) to '{result['translated_text']}' ({result['dest_language']})")
@@ -51,40 +47,6 @@ def translate_text(text: str, dest_lang: str = 'en', source_lang: str = 'auto') 
         return {"error": f"Could not translate the text. It might be too short or in an unsupported language. Details: {e}"}
     except Exception as e:
         logger.error(f"Error during translation: {e}")
-        return {"error": str(e)}
-
-def detect_language(text: str) -> dict:
-    """
-    Detects the language of a given text.
-
-    Args:
-        text (str): The text to analyze.
-
-    Returns:
-        dict: A dictionary containing the detected language code.
-              Returns an error message if detection fails.
-    """
-    if not text or not isinstance(text, str):
-        return {"error": "Invalid input text for language detection."}
-        
-    try:
-        # deep-translator's detect method returns the language code directly
-        detected_lang_code = GoogleTranslator().detect(text)
-        
-        if detected_lang_code:
-            # The library returns a list of possible languages and their confidence, we take the first one
-            lang_code = detected_lang_code[0]
-            result = {
-                "language": lang_code,
-                "confidence": None # deep-translator does not provide a confidence score
-            }
-            logger.info(f"Detected language: {result['language']}")
-            return result
-        else:
-            return {"error": "Language detection returned an empty result."}
-            
-    except Exception as e:
-        logger.error(f"Error during language detection: {e}")
         return {"error": str(e)}
 
 def get_supported_languages() -> dict:
@@ -113,14 +75,14 @@ if __name__ == '__main__':
         print(f"Translation back to Swahili: {swahili_result}")
 
     # --- Test Language Detection ---
-    detected_result = detect_language(text_to_translate)
-    print(f"Language Detection: {detected_result}")
+    # The detect_language function has been removed.
+    # If you need language detection, consider using a dedicated library or service.
 
     # --- Test with another language ---
     french_text = "Bonjour, comment ça va?"
     print(f"\nOriginal text: {french_text}")
-    detected_french = detect_language(french_text)
-    print(f"Language Detection: {detected_french}")
+    # detected_french = detect_language(french_text) # Removed
+    # print(f"Language Detection: {detected_french}") # Removed
     translated_french = translate_text(french_text, dest_lang='en')
     print(f"Translation to English: {translated_french}")
     

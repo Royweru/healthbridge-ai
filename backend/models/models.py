@@ -22,7 +22,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 print(f"DEBUG: DATABASE_URL is set to '{DATABASE_URL}'")
 
 # SQLAlchemy setup
-engine = create_engine(DATABASE_URL)
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
@@ -34,7 +34,7 @@ class Patient(Base):
     id = Column(Integer, primary_key=True, index=True)
     phone_number = Column(String(25), unique=True, nullable=False, index=True)
     name = Column(String(100), nullable=True)
-    language = Column(String(10), default='en')
+    language = Column(String(30), default='en')
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     # Relationships
